@@ -207,8 +207,6 @@ GameObject:
   - component: {fileID: 400184020}
   - component: {fileID: 400184019}
   - component: {fileID: 400184018}
-  - component: {fileID: 400184022}
-  - component: {fileID: 400184021}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -282,30 +280,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &400184021
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 400184017}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b84b114b8abce8440bca4570e1c58ec0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &400184022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 400184017}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a7a33e65171803408ddaccd1738d6ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &451453113
 GameObject:
   m_ObjectHideFlags: 0
@@ -537,7 +511,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 400184022}
+      - m_Target: {fileID: 454036168}
         m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
         m_MethodName: ChangeToPlayScene
         m_Mode: 1
@@ -569,6 +543,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a7a33e65171803408ddaccd1738d6ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  indice: 1
+--- !u!1 &458796065
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 458796067}
+  - component: {fileID: 458796068}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &458796067
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 458796065}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 493.46606, y: 306.8406, z: -2.7519531}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &458796068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 458796065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6f9deaaa8e19ff4197170b51ce5a7d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  botonConfig: {fileID: 1264688165}
 --- !u!1 &724869323
 GameObject:
   m_ObjectHideFlags: 0
@@ -893,10 +913,10 @@ GameObject:
   - component: {fileID: 1264688166}
   - component: {fileID: 1264688168}
   - component: {fileID: 1264688167}
-  - component: {fileID: 1264688169}
+  - component: {fileID: 1264688170}
   m_Layer: 5
   m_Name: config
-  m_TagString: Untagged
+  m_TagString: Boton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -967,8 +987,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 400184021}
-        m_TargetAssemblyTypeName: ChangeScene, Assembly-CSharp
+      - m_Target: {fileID: 1264688170}
+        m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
         m_MethodName: ChangeToPlayScene
         m_Mode: 1
         m_Arguments:
@@ -987,7 +1007,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1264688165}
   m_CullTransparentMesh: 1
---- !u!114 &1264688169
+--- !u!114 &1264688170
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -996,9 +1016,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1264688165}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b84b114b8abce8440bca4570e1c58ec0, type: 3}
+  m_Script: {fileID: 11500000, guid: 3a7a33e65171803408ddaccd1738d6ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  indice: 2
 --- !u!1 &1468665344
 GameObject:
   m_ObjectHideFlags: 0

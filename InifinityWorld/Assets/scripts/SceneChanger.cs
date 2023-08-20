@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 public class SceneChanger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private Vector3 originalScale;
-
+    public int indice;
     private void Start()
     {
         originalScale = transform.localScale;
@@ -13,7 +13,7 @@ public class SceneChanger : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void ChangeToPlayScene()
     {
-        SceneManager.LoadScene("Play");
+        SceneManager.LoadScene(indice);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - Powerup
   - Play
+  - Boton
   layers:
   - Default
   - TransparentFX

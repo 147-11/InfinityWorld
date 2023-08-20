@@ -10,6 +10,7 @@ public class ondas : MonoBehaviour
     public Slider[] sliders;
     public Text[] valueTexts;
     public Dropdown formaDropdown; // Referencia al Dropdown
+    public GameObject boton;
    // public Forma formaSeleccionada; // Opción seleccionada del Dropdown
 
     //fin
@@ -200,6 +201,11 @@ public class ondas : MonoBehaviour
         audio = gameObject.AddComponent<AudioSource>();
         audio.playOnAwake = false;
         audio.spatialBlend = 0;
+
+ boton= GameObject.FindWithTag("Boton");
+        Button btn = boton.GetComponent<Button>();
+		btn.onClick.AddListener(TaskOnClick);
+        
       // del Dropdown
       formaDropdown.onValueChanged.AddListener(ActualizarForma);
 
@@ -276,7 +282,7 @@ public class ondas : MonoBehaviour
         foreach (var kvp in noteFrequencies)
         {
             KeyCode key = kvp.Key;
-            float noteFrequency = kvp.Value;
+            float noteFrequency = 261.63f;
 
             if (Input.GetKeyDown(key))
             {
@@ -308,6 +314,45 @@ public class ondas : MonoBehaviour
             }
         }
     }
+
+void TaskOnClick(){
+		//Debug.Log ("You have clicked the button!");
+ //{ KeyCode.Q, 261.63f }, // Do
+         ADSRvalues();
+        ADSR();
+        //Por cada tecla que se presione, se tiene en cuenta si está levantada o no
+        foreach (var kvp in noteFrequencies)
+        {
+            KeyCode key =  KeyCode.Q;
+            float noteFrequency = kvp.Value;
+
+           
+
+                t0 = 0;
+                ADSRindex = 0;
+                keyStates[key] = true;
+
+                // basado en la tecla presionada
+                fr = noteFrequency;
+            
+
+           
+        }
+
+         if (!audio.isPlaying)
+            {
+                t0 = 0;
+                ADSRindex = 0;
+              
+                audio.Play();
+            
+            }
+            else
+            {
+                audio.Stop();
+            }
+         
+	}
 
     private void UpdateValueText(int index)
     {
