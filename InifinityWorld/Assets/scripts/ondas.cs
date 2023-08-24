@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 public class ondas : MonoBehaviour
 {
@@ -11,7 +13,8 @@ public class ondas : MonoBehaviour
     public Text[] valueTexts;
     public Dropdown formaDropdown; // Referencia al Dropdown
     public GameObject boton;
-   // public Forma formaSeleccionada; // Opción seleccionada del Dropdown
+
+    private static ondas instance; // Variable estática para almacenar la única instancia
 
     //fin
 
@@ -35,7 +38,7 @@ public class ondas : MonoBehaviour
 
     //ads
     [Range(5, 100)]
-    public float A=100;
+    public float A = 100;
 
     [Range(20, 300)]
     public float D = 200;
@@ -43,7 +46,7 @@ public class ondas : MonoBehaviour
     [Range(200, 1000)]
     public float S = 300;
 
-     [Range(20, 100)]
+    [Range(20, 100)]
     public float R = 800;
 
     int tA;
@@ -202,84 +205,125 @@ public class ondas : MonoBehaviour
         audio.playOnAwake = false;
         audio.spatialBlend = 0;
 
- boton= GameObject.FindWithTag("Boton");
-        Button btn = boton.GetComponent<Button>();
-		btn.onClick.AddListener(TaskOnClick);
-        
-      // del Dropdown
-      formaDropdown.onValueChanged.AddListener(ActualizarForma);
+        //botones
+        FindAndAssignButtons();
+        SceneManager.sceneLoaded += OnSceneLoaded;
 
-         // Suscribirse al evento de cambio de valor del Slider
-           //ataque
-            sliders[0].value = A; 
-       // Suscribirse a los eventos de cambio de valor de los Sliders
+        // del Dropdown
+        FindAndAssignDropdown();
+
+        // Suscribirse al evento de cambio de valor del Slider
+        //ataque
+        sliders[0].value = A;
+        // Suscribirse a los eventos de cambio de valor de los Sliders
         sliders[0].onValueChanged.AddListener(delegate { UpdateValueText(0); });
-          UpdateValueText(0); // Actualizar el texto inicial
-            // Configurar el valor inicial del Slider
-            //deacaimiento
-            sliders[1].value = D;
+        UpdateValueText(0); // Actualizar el texto inicial
+                            // Configurar el valor inicial del Slider
+                            //deacaimiento
+        sliders[1].value = D;
         sliders[1].onValueChanged.AddListener(delegate { UpdateValueText(1); });
-            UpdateValueText(1); 
-            //sostenido
-                        sliders[2].value = S;
+        UpdateValueText(1);
+        //sostenido
+        sliders[2].value = S;
         sliders[2].onValueChanged.AddListener(delegate { UpdateValueText(2); });
-            UpdateValueText(2); 
-            //liberacion
-                            sliders[3].value = R;
+        UpdateValueText(2);
+        //liberacion
+        sliders[3].value = R;
         sliders[3].onValueChanged.AddListener(delegate { UpdateValueText(3); });
-            UpdateValueText(3); 
-            //Amplitudes 1  { 1, 0.9f, 0.8f, 0.7f, 0.6f, 0.5f, 0.4f, 0.3f, 0.3f, 0.2f };
-                            sliders[4].value = Amplitudes[0];
+        UpdateValueText(3);
+        //Amplitudes 1  { 1, 0.9f, 0.8f, 0.7f, 0.6f, 0.5f, 0.4f, 0.3f, 0.3f, 0.2f };
+        sliders[4].value = Amplitudes[0];
         sliders[4].onValueChanged.AddListener(delegate { UpdateValueText(4); });
-            UpdateValueText(4); 
-                        //Amplitudes 0.9f
-                            sliders[5].value = Amplitudes[1];
+        UpdateValueText(4);
+        //Amplitudes 0.9f
+        sliders[5].value = Amplitudes[1];
         sliders[5].onValueChanged.AddListener(delegate { UpdateValueText(5); });
-            UpdateValueText(5); 
-                           //Amplitudes 0.8f
-                            sliders[6].value = Amplitudes[2];
+        UpdateValueText(5);
+        //Amplitudes 0.8f
+        sliders[6].value = Amplitudes[2];
         sliders[6].onValueChanged.AddListener(delegate { UpdateValueText(6); });
-            UpdateValueText(6); 
-                           //Amplitudes 0.7f
-                            sliders[7].value = Amplitudes[3];
+        UpdateValueText(6);
+        //Amplitudes 0.7f
+        sliders[7].value = Amplitudes[3];
         sliders[7].onValueChanged.AddListener(delegate { UpdateValueText(7); });
-            UpdateValueText(7); 
-                           //Amplitudes 0.6f
-                            sliders[8].value = Amplitudes[4];
+        UpdateValueText(7);
+        //Amplitudes 0.6f
+        sliders[8].value = Amplitudes[4];
         sliders[8].onValueChanged.AddListener(delegate { UpdateValueText(8); });
-            UpdateValueText(8); 
-                           //Amplitudes 0.5f
-                            sliders[9].value = Amplitudes[5];
+        UpdateValueText(8);
+        //Amplitudes 0.5f
+        sliders[9].value = Amplitudes[5];
         sliders[9].onValueChanged.AddListener(delegate { UpdateValueText(9); });
-            UpdateValueText(9); 
-                                       //Amplitudes 0.4f
-                            sliders[10].value = Amplitudes[6];
+        UpdateValueText(9);
+        //Amplitudes 0.4f
+        sliders[10].value = Amplitudes[6];
         sliders[10].onValueChanged.AddListener(delegate { UpdateValueText(10); });
-            UpdateValueText(10); 
-                                                   //Amplitudes 0.3f
-                            sliders[11].value = Amplitudes[7];
+        UpdateValueText(10);
+        //Amplitudes 0.3f
+        sliders[11].value = Amplitudes[7];
         sliders[11].onValueChanged.AddListener(delegate { UpdateValueText(11); });
-            UpdateValueText(11);  
-                                                   //Amplitudes 0.3f
-                            sliders[12].value = Amplitudes[8];
+        UpdateValueText(11);
+        //Amplitudes 0.3f
+        sliders[12].value = Amplitudes[8];
         sliders[12].onValueChanged.AddListener(delegate { UpdateValueText(12); });
-            UpdateValueText(12);  
-                                                               //Amplitudes 0.2f
-                      sliders[13].value = Amplitudes[9];
-       sliders[13].onValueChanged.AddListener(delegate { UpdateValueText(13); });
-            UpdateValueText(13);  
+        UpdateValueText(12);
+        //Amplitudes 0.2f
+        sliders[13].value = Amplitudes[9];
+        sliders[13].onValueChanged.AddListener(delegate { UpdateValueText(13); });
+        UpdateValueText(13);
 
-        
-     
+
+
         audio.Stop();
+        
     }
 
-     void Update()
+    void Awake()
+    {
+                // Verifica si ya existe una instancia, si existe, destruye este objeto
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject); // Conserva el objeto a través de las escenas
+        }
+        else
+        {
+            Destroy(gameObject); // Si ya hay una instancia, destruye este objeto
+            return;
+        }
+    }
+
+        private void FindAndAssignDropdown()
+    {
+        formaDropdown = GameObject.FindGameObjectWithTag("DdwForma").GetComponent<Dropdown>(); // Encuentra el Dropdown por etiqueta
+        formaDropdown.onValueChanged.AddListener(ActualizarForma); // Asigna el evento de cambio de valor
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        FindAndAssignButtons();
+        FindAndAssignDropdown();
+    }
+
+    private void FindAndAssignButtons()
+    {
+        GameObject[] botones = GameObject.FindGameObjectsWithTag("Boton"); // Encuentra los botones en la escena actual
+
+        foreach (GameObject boton in botones)
+        {
+            Button btn = boton.GetComponent<Button>();
+            btn.onClick.AddListener(TaskOnClick);
+        }
+    }
+
+
+    void Update()
     {
         ADSRvalues();
         ADSR();
         //Por cada tecla que se presione, se tiene en cuenta si está levantada o no
-        foreach (var kvp in noteFrequencies)
+        float noteFrequency = 261.63f;
+        /* foreach (var kvp in noteFrequencies)
         {
             KeyCode key = kvp.Key;
             float noteFrequency = 261.63f;
@@ -298,67 +342,64 @@ public class ondas : MonoBehaviour
             {
                 keyStates[key] = false;
             }
+        } */
+        if (!audio.isPlaying)
+        {
+            t0 = 0;
+            audio.Play();
+        }
+        else
+        {
+            audio.Stop();
         }
 
-        //Para iniciar el piano con la tecla espacio
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (!audio.isPlaying)
-            {
-                t0 = 0;
-                audio.Play();
-            }
-            else
-            {
-                audio.Stop();
-            }
-        }
     }
 
-void TaskOnClick(){
-		//Debug.Log ("You have clicked the button!");
- //{ KeyCode.Q, 261.63f }, // Do
-         ADSRvalues();
+    void TaskOnClick()
+    {
+        //Debug.Log ("You have clicked the button!");
+        //{ KeyCode.Q, 261.63f }, // Do
+        ADSRvalues();
         ADSR();
         //Por cada tecla que se presione, se tiene en cuenta si está levantada o no
         foreach (var kvp in noteFrequencies)
         {
-            KeyCode key =  KeyCode.Q;
+            KeyCode key = KeyCode.Q;
             float noteFrequency = kvp.Value;
 
-           
 
-                t0 = 0;
-                ADSRindex = 0;
-                keyStates[key] = true;
 
-                // basado en la tecla presionada
-                fr = noteFrequency;
-            
+            t0 = 0;
+            ADSRindex = 0;
+            keyStates[key] = true;
 
-           
+            // basado en la tecla presionada
+            fr = noteFrequency;
+
+
+
         }
 
-         if (!audio.isPlaying)
-            {
-                t0 = 0;
-                ADSRindex = 0;
-              
-                audio.Play();
-            
-            }
-            else
-            {
-                audio.Stop();
-            }
-         
-	}
+        if (!audio.isPlaying)
+        {
+            t0 = 0;
+            ADSRindex = 0;
+
+            audio.Play();
+
+        }
+        else
+        {
+            audio.Stop();
+        }
+
+    }
 
     private void UpdateValueText(int index)
     {
         float value = sliders[index].value;
         //ataque
-       if (index == 0)
+        if (index == 0)
         {
             A = value;
             valueTexts[0].text = "Ataque: " + A.ToString("F2");
@@ -368,74 +409,74 @@ void TaskOnClick(){
             D = value;
             valueTexts[1].text = "Decaimiento: " + D.ToString("F1");
         }
-          else if (index == 2)
+        else if (index == 2)
         {
             S = value;
             valueTexts[2].text = "Sostenido: " + S.ToString("F1");
         }
-         else if (index == 3)
+        else if (index == 3)
         {
             R = value;
             valueTexts[3].text = "Liberación: " + R.ToString("F1");
         }
-          else if (index == 4)
+        else if (index == 4)
         {
             Amplitudes[0] = value;
             valueTexts[4].text = "Amplitud 1: " + Amplitudes[0].ToString("F1");
         }
-                  else if (index == 5)
+        else if (index == 5)
         {
             Amplitudes[1] = value;
             valueTexts[5].text = "Amplitud 0.9: " + Amplitudes[1].ToString("F1");
         }
-                else if (index == 6)
+        else if (index == 6)
         {
             Amplitudes[2] = value;
             valueTexts[6].text = "Amplitud 0.8: " + Amplitudes[2].ToString("F1");
         }
-                else if (index == 7)
+        else if (index == 7)
         {
             Amplitudes[3] = value;
             valueTexts[7].text = "Amplitud 0.7: " + Amplitudes[3].ToString("F1");
         }
-                else if (index == 8)
+        else if (index == 8)
         {
             Amplitudes[4] = value;
             valueTexts[8].text = "Amplitud 0.6: " + Amplitudes[4].ToString("F1");
         }
-                else if (index == 9)
+        else if (index == 9)
         {
             Amplitudes[5] = value;
             valueTexts[9].text = "Amplitud 0.5: " + Amplitudes[5].ToString("F1");
         }
-                        else if (index == 10)
+        else if (index == 10)
         {
             Amplitudes[6] = value;
             valueTexts[10].text = "Amplitud 0.4: " + Amplitudes[6].ToString("F1");
-        }                
+        }
         else if (index == 11)
         {
             Amplitudes[7] = value;
             valueTexts[11].text = "Amplitud 0.3: " + Amplitudes[7].ToString("F1");
         }
-                         else if (index == 12)
+        else if (index == 12)
         {
             Amplitudes[8] = value;
             valueTexts[12].text = "Amplitud 0.3: " + Amplitudes[8].ToString("F1");
         }
-                                 else if (index == 13)
+        else if (index == 13)
         {
             Amplitudes[9] = value;
             valueTexts[13].text = "Amplitud 0.2: " + Amplitudes[9].ToString("F1");
         }
-                                   
-        
+
+
     }
     private void ActualizarForma(int indice)
     {
-        
+
         forma = (Forma)indice;
-       // Debug.Log("Forma seleccionada: " + forma.ToString());
+        // Debug.Log("Forma seleccionada: " + forma.ToString());
     }
 
     void ADSRvalues()
@@ -473,15 +514,15 @@ void TaskOnClick(){
         {
             Ss[i] = m * i + 0.8f;
         }
-         // Liberación (Release)
-    for (int i = 0; i < tR; i++)
-    {
-        Rs[i] = Mathf.Pow((1.0f - (i / (float)tR)), 1.5f); // Curva de liberación más pronunciada
-    }
+        // Liberación (Release)
+        for (int i = 0; i < tR; i++)
+        {
+            Rs[i] = Mathf.Pow((1.0f - (i / (float)tR)), 1.5f); // Curva de liberación más pronunciada
+        }
 
 
         //unir ADSs en un solo arreglo
-        float[] result = new float[As.Length + Ds.Length + Ss.Length+ Rs.Length];
+        float[] result = new float[As.Length + Ds.Length + Ss.Length + Rs.Length];
 
         As.CopyTo(result, 0);
         Ds.CopyTo(result, As.Length);

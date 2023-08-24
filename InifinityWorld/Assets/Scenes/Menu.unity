@@ -441,7 +441,7 @@ GameObject:
   - component: {fileID: 454036168}
   m_Layer: 5
   m_Name: Play
-  m_TagString: Play
+  m_TagString: Boton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -588,7 +588,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6f9deaaa8e19ff4197170b51ce5a7d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  botonConfig: {fileID: 1264688165}
 --- !u!1 &724869323
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,6 +8,7 @@ TagManager:
   - Powerup
   - Play
   - Boton
+  - DdwForma
   layers:
   - Default
   - TransparentFX
