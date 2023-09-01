@@ -212,75 +212,75 @@ public class ondas : MonoBehaviour
         // del Dropdown
         FindAndAssignDropdown();
 
-        // Suscribirse al evento de cambio de valor del Slider
-        //ataque
-        sliders[0].value = A;
-        // Suscribirse a los eventos de cambio de valor de los Sliders
-        sliders[0].onValueChanged.AddListener(delegate { UpdateValueText(0); });
-        UpdateValueText(0); // Actualizar el texto inicial
-                            // Configurar el valor inicial del Slider
-                            //deacaimiento
-        sliders[1].value = D;
-        sliders[1].onValueChanged.AddListener(delegate { UpdateValueText(1); });
-        UpdateValueText(1);
-        //sostenido
-        sliders[2].value = S;
-        sliders[2].onValueChanged.AddListener(delegate { UpdateValueText(2); });
-        UpdateValueText(2);
-        //liberacion
-        sliders[3].value = R;
-        sliders[3].onValueChanged.AddListener(delegate { UpdateValueText(3); });
-        UpdateValueText(3);
-        //Amplitudes 1  { 1, 0.9f, 0.8f, 0.7f, 0.6f, 0.5f, 0.4f, 0.3f, 0.3f, 0.2f };
-        sliders[4].value = Amplitudes[0];
-        sliders[4].onValueChanged.AddListener(delegate { UpdateValueText(4); });
-        UpdateValueText(4);
-        //Amplitudes 0.9f
-        sliders[5].value = Amplitudes[1];
-        sliders[5].onValueChanged.AddListener(delegate { UpdateValueText(5); });
-        UpdateValueText(5);
-        //Amplitudes 0.8f
-        sliders[6].value = Amplitudes[2];
-        sliders[6].onValueChanged.AddListener(delegate { UpdateValueText(6); });
-        UpdateValueText(6);
-        //Amplitudes 0.7f
-        sliders[7].value = Amplitudes[3];
-        sliders[7].onValueChanged.AddListener(delegate { UpdateValueText(7); });
-        UpdateValueText(7);
-        //Amplitudes 0.6f
-        sliders[8].value = Amplitudes[4];
-        sliders[8].onValueChanged.AddListener(delegate { UpdateValueText(8); });
-        UpdateValueText(8);
-        //Amplitudes 0.5f
-        sliders[9].value = Amplitudes[5];
-        sliders[9].onValueChanged.AddListener(delegate { UpdateValueText(9); });
-        UpdateValueText(9);
-        //Amplitudes 0.4f
-        sliders[10].value = Amplitudes[6];
-        sliders[10].onValueChanged.AddListener(delegate { UpdateValueText(10); });
-        UpdateValueText(10);
-        //Amplitudes 0.3f
-        sliders[11].value = Amplitudes[7];
-        sliders[11].onValueChanged.AddListener(delegate { UpdateValueText(11); });
-        UpdateValueText(11);
-        //Amplitudes 0.3f
-        sliders[12].value = Amplitudes[8];
-        sliders[12].onValueChanged.AddListener(delegate { UpdateValueText(12); });
-        UpdateValueText(12);
-        //Amplitudes 0.2f
-        sliders[13].value = Amplitudes[9];
-        sliders[13].onValueChanged.AddListener(delegate { UpdateValueText(13); });
-        UpdateValueText(13);
+        /*  // Suscribirse al evento de cambio de valor del Slider
+         //ataque
+         sliders[0].value = A;
+         // Suscribirse a los eventos de cambio de valor de los Sliders
+         sliders[0].onValueChanged.AddListener(delegate { UpdateValueText(0); });
+         UpdateValueText(0); // Actualizar el texto inicial
+                             // Configurar el valor inicial del Slider
+                             //deacaimiento
+         sliders[1].value = D;
+         sliders[1].onValueChanged.AddListener(delegate { UpdateValueText(1); });
+         UpdateValueText(1);
+         //sostenido
+         sliders[2].value = S;
+         sliders[2].onValueChanged.AddListener(delegate { UpdateValueText(2); });
+         UpdateValueText(2);
+         //liberacion
+         sliders[3].value = R;
+         sliders[3].onValueChanged.AddListener(delegate { UpdateValueText(3); });
+         UpdateValueText(3);
+         //Amplitudes 1  { 1, 0.9f, 0.8f, 0.7f, 0.6f, 0.5f, 0.4f, 0.3f, 0.3f, 0.2f };
+         sliders[4].value = Amplitudes[0];
+         sliders[4].onValueChanged.AddListener(delegate { UpdateValueText(4); });
+         UpdateValueText(4);
+         //Amplitudes 0.9f
+         sliders[5].value = Amplitudes[1];
+         sliders[5].onValueChanged.AddListener(delegate { UpdateValueText(5); });
+         UpdateValueText(5);
+         //Amplitudes 0.8f
+         sliders[6].value = Amplitudes[2];
+         sliders[6].onValueChanged.AddListener(delegate { UpdateValueText(6); });
+         UpdateValueText(6);
+         //Amplitudes 0.7f
+         sliders[7].value = Amplitudes[3];
+         sliders[7].onValueChanged.AddListener(delegate { UpdateValueText(7); });
+         UpdateValueText(7);
+         //Amplitudes 0.6f
+         sliders[8].value = Amplitudes[4];
+         sliders[8].onValueChanged.AddListener(delegate { UpdateValueText(8); });
+         UpdateValueText(8);
+         //Amplitudes 0.5f
+         sliders[9].value = Amplitudes[5];
+         sliders[9].onValueChanged.AddListener(delegate { UpdateValueText(9); });
+         UpdateValueText(9);
+         //Amplitudes 0.4f
+         sliders[10].value = Amplitudes[6];
+         sliders[10].onValueChanged.AddListener(delegate { UpdateValueText(10); });
+         UpdateValueText(10);
+         //Amplitudes 0.3f
+         sliders[11].value = Amplitudes[7];
+         sliders[11].onValueChanged.AddListener(delegate { UpdateValueText(11); });
+         UpdateValueText(11);
+         //Amplitudes 0.3f
+         sliders[12].value = Amplitudes[8];
+         sliders[12].onValueChanged.AddListener(delegate { UpdateValueText(12); });
+         UpdateValueText(12);
+         //Amplitudes 0.2f
+         sliders[13].value = Amplitudes[9];
+         sliders[13].onValueChanged.AddListener(delegate { UpdateValueText(13); });
+         UpdateValueText(13); */
 
 
 
         audio.Stop();
-        
+
     }
 
     void Awake()
     {
-                // Verifica si ya existe una instancia, si existe, destruye este objeto
+        // Verifica si ya existe una instancia, si existe, destruye este objeto
         if (instance == null)
         {
             instance = this;
@@ -293,16 +293,45 @@ public class ondas : MonoBehaviour
         }
     }
 
-        private void FindAndAssignDropdown()
+    private void FindAndAssignDropdown()
     {
-        formaDropdown = GameObject.FindGameObjectWithTag("DdwForma").GetComponent<Dropdown>(); // Encuentra el Dropdown por etiqueta
-        formaDropdown.onValueChanged.AddListener(ActualizarForma); // Asigna el evento de cambio de valor
+        GameObject dropdownObject = GameObject.FindGameObjectWithTag("DdwForma");
+
+        if (dropdownObject != null)
+        {
+            formaDropdown = dropdownObject.GetComponent<Dropdown>();
+
+            if (formaDropdown != null)
+            {
+                formaDropdown.onValueChanged.AddListener(ActualizarForma);
+            }
+            else
+            {
+                Debug.LogWarning("Dropdown component not found on the object with tag 'DdwForma'.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("No object found with tag 'DdwForma'.");
+        }
     }
+
+
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         FindAndAssignButtons();
         FindAndAssignDropdown();
+        // Llama a la asignación de sliders aquí
+        AssignSlider("SldAttack", 0);
+        AssignSlider("SldDecay", 1);
+        AssignSlider("SldSustain", 2);
+
+        for (int i = 3; i <= 13; i++)
+        {
+            string sliderName = "SldAmplitudes" + (i - 3);
+            AssignSlider(sliderName, i);
+        }
     }
 
     private void FindAndAssignButtons()
@@ -313,6 +342,15 @@ public class ondas : MonoBehaviour
         {
             Button btn = boton.GetComponent<Button>();
             btn.onClick.AddListener(TaskOnClick);
+        }
+    }
+
+    private void AssignSlider(string sliderName, int index)
+    {
+        Slider sliderObject = GameObject.Find(sliderName)?.GetComponent<Slider>();
+        if (sliderObject != null)
+        {
+            sliders[index] = sliderObject;
         }
     }
 
