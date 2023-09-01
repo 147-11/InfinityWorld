@@ -322,16 +322,18 @@ public class ondas : MonoBehaviour
     {
         FindAndAssignButtons();
         FindAndAssignDropdown();
-        // Llama a la asignación de sliders aquí
-        AssignSlider("SldAttack", 0);
-        AssignSlider("SldDecay", 1);
-        AssignSlider("SldSustain", 2);
+        
+    // Llama a la asignación de sliders aquí
+    AssignSlider("SldAttack", 0);
+    AssignSlider("SldDecay", 1);
+    AssignSlider("SldSustain", 2);
+    AssignSlider("SldRelease", 3); // Asignar SldRelease al índice 3
 
-        for (int i = 3; i <= 13; i++)
-        {
-            string sliderName = "SldAmplitudes" + (i - 3);
-            AssignSlider(sliderName, i);
-        }
+    for (int i = 4; i <= 13; i++) // Comenzar desde el índice 4
+    {
+        string sliderName = "SldAmplitudes" + (i - 3); // Ajustar índice aquí
+        AssignSlider(sliderName, i);
+    }
     }
 
     private void FindAndAssignButtons()
