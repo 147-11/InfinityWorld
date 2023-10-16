@@ -1,16 +1,18 @@
 using UnityEngine;
-using System.Collections; // Agrega esta línea para acceder a las clases de IEnumerator
-
+using System.Collections;
 
 public class PowerUp : MonoBehaviour
 {
-    public float spawnInterval = 10f; // Intervalo de tiempo entre apariciones en segundos
-    public GameObject powerUpPrefab; // Prefab del power up a instanciar
-    public float spawnRadius = 5f; // Radio dentro del cual aparecerá el PowerUp cerca del jugador
+    public GameObject powerUpPrefab;
+    public float spawnRadius = 5f;
+    public float minSpawnInterval = 10f;
+    public float maxSpawnInterval = 30f;
+
+    private bool isPowerUpActive = false;
 
     private void Start()
     {
-        // Iniciar la rutina de aparición de power ups
+        // Comienza la rutina de aparición de power-ups
         StartCoroutine(SpawnPowerUpRoutine());
     }
 
@@ -18,22 +20,28 @@ public class PowerUp : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(spawnInterval);
-
-            // Encontrar el jugador con el tag "Player"
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player != null)
+            if (!isPowerUpActive)
             {
-                // Obtener la posición del jugador
-                Vector3 playerPosition = player.transform.position;
+                yield return new WaitForSeconds(Random.Range(minSpawnInterval, maxSpawnInterval));
 
-                // Calcular una posición aleatoria dentro del radio cerca del jugador
-                Vector3 spawnPosition = playerPosition + Random.insideUnitSphere * spawnRadius;
-                spawnPosition.y = 0.5f; // Asegurarse de que el PowerUp esté a una altura constante
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+                if (player != null)
+                {
+                    Vector3 playerPosition = player.transform.position;
+                    Vector3 spawnPosition = playerPosition + Random.insideUnitSphere * spawnRadius;
+                    spawnPosition.y = 0.5f;
 
-                // Instanciar el power up en la posición calculada
-                Instantiate(powerUpPrefab, spawnPosition, Quaternion.identity);
+                    Instantiate(powerUpPrefab, spawnPosition, Quaternion.identity);
+                    isPowerUpActive = true;
+                }
             }
+            yield return null;
         }
+    }
+
+    // Llamado cuando el jugador recoge el power-up
+    public void PowerUpCollected()
+    {
+        isPowerUpActive = false;
     }
 }

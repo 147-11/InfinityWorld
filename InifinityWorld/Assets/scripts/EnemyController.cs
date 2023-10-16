@@ -3,20 +3,30 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     public float initialSpawnInterval = 2f;
-    public float speedIncreaseRate = 0.1f;
+    public float speedIncreaseRate = 0.00000000000000000000000000000000000000000000001f;
     public float moveSpeed = 2f;
     public Transform playerTransform;
     public GameObject enemyPrefab;
+    public float maxEnemyDistance = 30f; // La distancia máxima a la que un enemigo puede alejarse del jugador antes de ser destruido
+
     private int enemyCount = 0; // Contador de enemigos creados
     private float spawnInterval = 3.0f; // Intervalo de tiempo entre apariciones
     private int enemiesPerSpawn = 0; // Cantidad inicial de enemigos por aparición
-
     private float currentSpawnInterval;
+    private Camera mainCamera;
+    private Vector3 cameraPosition;
+    private float cameraHeight;
+    private float cameraWidth;
 
     private void Start()
     {
         currentSpawnInterval = initialSpawnInterval;
-        //InvokeRepeating(nameof(SpawnEnemy), 1f, currentSpawnInterval);
+        mainCamera = Camera.main;
+        cameraHeight = mainCamera.orthographicSize * 2f;
+        cameraWidth = cameraHeight * mainCamera.aspect;
+        cameraPosition = mainCamera.transform.position;
+
+        InvokeRepeating(nameof(SpawnEnemy), 1f, currentSpawnInterval);
     }
 
     private void Update()
@@ -30,54 +40,36 @@ public class EnemyController : MonoBehaviour
             enemiesPerSpawn++;
 
             // Llamar a la función para crear los enemigos al mismo tiempo
-            SpawnEnemies();
+            SpawnEnemy();
         }
 
         MoveEnemy();
         UpdateSpawnInterval();
+        DestroyFarEnemies();
     }
 
     private void UpdateSpawnInterval()
     {
-        currentSpawnInterval--;
+        currentSpawnInterval -= Time.deltaTime;
         currentSpawnInterval = Mathf.Max(1f, currentSpawnInterval); // Ajustar el mínimo intervalo
     }
 
-    private void SpawnEnemies()
+    private void SpawnEnemy()
     {
         if (playerTransform == null) return;
 
-        Camera mainCamera = Camera.main;
-        float cameraHeight = mainCamera.orthographicSize * 2f;
-        float cameraWidth = cameraHeight * mainCamera.aspect;
-
-        // Generar múltiples enemigos al mismo tiempo
-        for (int i = 0; i < enemiesPerSpawn; i++)
-        {
-            Vector3 spawnPosition = CalculateSpawnPosition(cameraWidth, cameraHeight);
-            Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
-            enemyCount++; // Incrementar el contador de enemigos creados
-        }
+        Vector3 spawnPosition = CalculateSpawnPosition();
+        GameObject newEnemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+        enemyCount++; // Incrementar el contador de enemigos creados
     }
 
-    private Vector3 CalculateSpawnPosition(float cameraWidth, float cameraHeight)
+    private Vector3 CalculateSpawnPosition()
     {
-        Vector3 spawnPosition = Vector3.zero;
+        Vector3 playerPosition = playerTransform.position;
+        Vector3 playerDirection = playerPosition - cameraPosition;
 
-        bool spawnOnVerticalSide = Random.Range(0, 2) == 0;
-
-        if (spawnOnVerticalSide)
-        {
-            float spawnX = Random.Range(-cameraWidth / 2f, cameraWidth / 2f);
-            float spawnZ = Random.Range(0f, 1f) < 0.5f ? -cameraHeight / 2f : cameraHeight / 2f;
-            spawnPosition = playerTransform.position + new Vector3(spawnX, 0f, spawnZ);
-        }
-        else
-        {
-            float spawnX = Random.Range(0f, 1f) < 0.5f ? -cameraWidth / 2f : cameraWidth / 2f;
-            float spawnZ = Random.Range(-cameraHeight / 2f, cameraHeight / 2f);
-            spawnPosition = playerTransform.position + new Vector3(spawnX, 0f, spawnZ);
-        }
+        Vector3 spawnPosition = playerPosition + playerDirection.normalized * maxEnemyDistance;
+        spawnPosition.y = 1f; // La altura a la que aparecerán los enemigos
 
         return spawnPosition;
     }
@@ -87,7 +79,19 @@ public class EnemyController : MonoBehaviour
         if (playerTransform == null) return;
 
         Vector3 directionToPlayer = (playerTransform.position - transform.position).normalized;
-
         transform.Translate(directionToPlayer * moveSpeed * Time.deltaTime, Space.World);
+    }
+
+    private void DestroyFarEnemies()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        foreach (var enemy in enemies)
+        {
+            if (Vector3.Distance(enemy.transform.position, playerTransform.position) > maxEnemyDistance)
+            {
+                Destroy(enemy);
+            }
+        }
     }
 }

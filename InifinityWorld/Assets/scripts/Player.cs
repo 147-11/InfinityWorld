@@ -4,6 +4,7 @@ using System.Collections;
 
 public class Player : MonoBehaviour
 {
+    private float powerupDuration = 5.0f;
     //camara
     public float moveSpeed = 5f;
 
@@ -247,6 +248,12 @@ public class Player : MonoBehaviour
         hasPowerup = true;
         //powerupTimer = powerupDuration;
         //StartCoroutine(PowerupCooldown());
+                // Busca el script del PowerUp en la escena y llama a PowerUpCollected()
+        PowerUp powerUpScript = FindObjectOfType<PowerUp>();
+        if (powerUpScript != null)
+        {
+            powerUpScript.PowerUpCollected();
+        }
     }
     /*
         private void UpdatePowerup()
