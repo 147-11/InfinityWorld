@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 5350946798202213559}
   - component: {fileID: 6457502422574855856}
   - component: {fileID: 3921885189280746222}
-  - component: {fileID: 1717928477145953643}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -33,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 5350946798202213565}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 50, y: 1, z: 50}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -67,7 +66,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 24203d0dfdc998f4daf1eb76358a43bf, type: 2}
+  - {fileID: 2100000, guid: 0857530277ca35f458f527ea43901406, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -139,6 +139,7 @@ MonoBehaviour:
   moveSpeed: 0.5
   playerTransform: {fileID: 5350946798202213560}
   enemyPrefab: {fileID: 3834767186321314225, guid: 69844eeec9e89dd469f89eaf5f4fd860, type: 3}
+  maxEnemyDistance: 30
 --- !u!114 &6457502422574855856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,24 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4692f9d91c579f044aa1a1e7e7e761c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnInterval: 15
   powerUpPrefab: {fileID: 4681074138673480952, guid: 80ca4a14d03f32c45955b92a8ddd07f9, type: 3}
   spawnRadius: 10
---- !u!114 &1717928477145953643
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5350946798202213565}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70ff60b35a45d8f4bb9a09330f13b15c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundTilePrefab: {fileID: 6870866826896566695, guid: e42e273fe2f4e3d4084d675dbe4a7755, type: 3}
-  playerTransform: {fileID: 0}
-  mainCamera: {fileID: 0}
-  tileSize: 10
-  despawnDistance: 20
-  initialTiles: 5
+  minSpawnInterval: 10
+  maxSpawnInterval: 30
