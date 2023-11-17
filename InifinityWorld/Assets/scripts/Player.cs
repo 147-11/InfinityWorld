@@ -158,6 +158,9 @@ public class Player : MonoBehaviour
         }*/
         if (canShoot /* && timeSinceLastShot >= fireRate */)
         {
+            //DemoScript.OnMidiPlaybackRequested?.Invoke();
+            DemoScript.InvokeMidiPlaybackRequested();
+
             GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
             if (enemies.Length > 0)
@@ -182,9 +185,7 @@ public class Player : MonoBehaviour
 
                 Instantiate(projectilePrefab, projectileSpawnPoint.position, rotationToEnemy);
             }
- 
-        }
-    }
+    }}
 
     private void Shoot01()
     {
@@ -298,3 +299,4 @@ public class Player : MonoBehaviour
             hasPowerup = false;
         }*/
 }
+

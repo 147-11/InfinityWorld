@@ -197,9 +197,13 @@ using Melanchall.DryWetMidi.Standards;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
 public class DemoScript : MonoBehaviour
 {
+    public static event Action OnMidiPlaybackRequested;
+        public static void InvokeMidiPlaybackRequested()
+    {
+        OnMidiPlaybackRequested?.Invoke();
+    }
     private sealed class LogOutputDevice : IOutputDevice
     {
         public event EventHandler<MidiEventSentEventArgs> EventSent;
@@ -232,32 +236,60 @@ public class DemoScript : MonoBehaviour
     private string[] midiFilePaths;
     private int currentSongIndex = 0;
 
+    public delegate void MidiPlaybackEvent(string midiFilePath);
+    //public static event MidiPlaybackEvent OnMidiPlaybackRequested;
+
     private void Start()
     {
-        // Obtén el índice actual de la canción desde PersistentManager
         int storedIndex = PersistentManager.Instance.GetCurrentSongIndex();
 
         midiFilePaths = new string[]
         {
             Application.dataPath + "/midis/InfinityWorld_Gameplay_fine.mid",
             Application.dataPath + "/midis/InfinityWorld_Menu.mid",
-            Application.dataPath + "/midis/Laser.midi"
+            Application.dataPath + "/midis/Sonido Peep.mid"
         };
 
         InitializeOutputDevice();
 
-        // Asegúrate de que el índice actual esté dentro de los límites
         currentSongIndex = Mathf.Clamp(storedIndex, 0, midiFilePaths.Length - 1);
 
-        var midiFile = MidiFile.Read(midiFilePaths[currentSongIndex]); // Lee el archivo MIDI según el índice actual
+        var midiFile = MidiFile.Read(midiFilePaths[currentSongIndex]);
         InitializeFilePlayback(midiFile);
 
-        // Inicia la reproducción
-        //StartPlayback();
-                // Si no estás en la escena "Configuracion", inicia la reproducción
         if (SceneManager.GetActiveScene().name != "Configuracion")
         {
             StartPlayback();
+        }
+    }
+
+
+    public void PlaySonidoPeepMidi()
+    {
+        string midiFilePath = GetLaserMidiFilePath();
+
+        if (!string.IsNullOrEmpty(midiFilePath))
+        {
+            var midiFile = MidiFile.Read(midiFilePath);
+            InitializeFilePlayback(midiFile);
+            StartPlayback();
+        }
+        else
+        {
+            Debug.LogError("No se encontró la ruta de Laser.midi en midiFilePaths.");
+        }
+    }
+
+    private string GetLaserMidiFilePath()
+    {
+        if (midiFilePaths.Length > 2)
+        {
+            return midiFilePaths[2];
+        }
+        else
+        {
+            Debug.LogError("La lista midiFilePaths no contiene la ruta de Laser.midi.");
+            return null;
         }
     }
 
