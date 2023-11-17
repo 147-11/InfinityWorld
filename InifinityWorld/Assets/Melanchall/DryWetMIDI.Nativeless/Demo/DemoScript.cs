@@ -239,8 +239,9 @@ public class DemoScript : MonoBehaviour
 
         midiFilePaths = new string[]
         {
+            Application.dataPath + "/midis/InfinityWorld_Gameplay_fine.mid",
             Application.dataPath + "/midis/InfinityWorld_Menu.mid",
-            Application.dataPath +  "/midis/InfinityWorld_Gameplay_fine.mid"
+            Application.dataPath + "/midis/Laser.midi"
         };
 
         InitializeOutputDevice();
@@ -259,6 +260,7 @@ public class DemoScript : MonoBehaviour
             StartPlayback();
         }
     }
+
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -336,6 +338,11 @@ public class DemoScript : MonoBehaviour
         }
     }
 
+    public string GetCurrentMidiFilePath()
+    {
+        return midiFilePaths[currentSongIndex];
+    }
+    
 private void TogglePlayback()
 {
     if (_playback.IsRunning)

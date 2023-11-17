@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 
+
 public class Player : MonoBehaviour
 {
     private float powerupDuration = 5.0f;
@@ -41,6 +42,9 @@ public class Player : MonoBehaviour
 
     private int cont = 0; //contador de power up
     public float orbitDistance = 2f; // Distancia de órbita alrededor del jugador
+
+        // Referencia al script DemoScript
+    private DemoScript demoScript;
 
     private void Update()
     {
@@ -100,12 +104,20 @@ public class Player : MonoBehaviour
         }
     }
 
+
+
     private void Start()
     {
+        // Puedes acceder directamente al tipo DemoScript
+        demoScript = GameObject.Find("SoundManager").GetComponent<DemoScript>();
+        
         mainCamera = Camera.main;
         playerTransform = transform;
 
         InvokeRepeating("Shoot", 0f, shootInterval);
+
+        // Encuentra y almacena la referencia al script DemoScript
+        demoScript = GameObject.Find("SoundManager").GetComponent<DemoScript>();
     }
 
     private void MovePlayer()
@@ -130,6 +142,20 @@ public class Player : MonoBehaviour
 
     private void Shoot()
     {
+        // Accede al DemoScript para obtener la ruta del archivo MIDI
+        /*if (demoScript != null)
+        {
+            string midiFilePath = demoScript.GetCurrentMidiFilePath();
+
+            // Carga y reproduce el archivo MIDI
+            var midiFile = MidiFile.Read(midiFilePath);
+            InitializeFilePlayback(midiFile);
+            StartPlayback();
+        }
+        else
+        {
+            Debug.LogError("DemoScript not assigned to Player. Assign it in the Inspector.");
+        }*/
         if (canShoot /* && timeSinceLastShot >= fireRate */)
         {
             GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
@@ -156,6 +182,7 @@ public class Player : MonoBehaviour
 
                 Instantiate(projectilePrefab, projectileSpawnPoint.position, rotationToEnemy);
             }
+ 
         }
     }
 
